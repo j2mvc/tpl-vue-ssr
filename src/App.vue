@@ -8,8 +8,10 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="scss">
+
   @import "assets/public.css";
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -1,29 +1,11 @@
-# tpl-vue-ssr
+#VueSSR基础模板
+#安装
+npm install
+#开发模式
+npm run dev
+#打包
+npm build
+#运行
+npm run start
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
-
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#详细说明见docs/安装文档.md

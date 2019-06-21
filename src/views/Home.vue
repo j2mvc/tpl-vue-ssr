@@ -16,17 +16,16 @@ export default {
     // 添加同步数据方法，用于服务器渲染
     // 触发 action 后，会返回 Promise
     console.log('[home asyncData.]')
-    return store.dispatch('FETCH_INFO',route.params)
+    return store.dispatch('FETCH_INFO',{type:'article'})
   },
   computed: {
       info(){
-        console.log('[home computed.]')
         return this.$store.getters.activeData
       }
   },
-  created(){
-    console.log('[home created.]')
-    this.$store.dispatch('FETCH_INFO',{type:'article'});
-  }
+  mounted(){
+     console.log('[home mounted.]')
+     this.$store.dispatch('FETCH_INFO',{type:'article'});
+   }
 }
 </script>

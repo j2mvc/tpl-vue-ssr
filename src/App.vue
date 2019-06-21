@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="stylus">
   @import "assets/public.css";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

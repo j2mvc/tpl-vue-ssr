@@ -16,6 +16,3 @@ npm run start
 见docs/安装文档.md
 
 
-#Build Setup
-#引入现有项目
-npm install tpl-vue-ssr

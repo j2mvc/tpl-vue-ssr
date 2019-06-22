@@ -4,18 +4,16 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-// 创建多个实例
-const extractCSS = new ExtractTextPlugin('stylesheets/[name]-one.css');
-const extractLESS = new ExtractTextPlugin('stylesheets/[name]-two.css');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
 
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   mode:isProd?'production':'none',
   devtool: isProd
-    ? false
-    : '#cheap-module-source-map',
+      ? false
+      : '#cheap-module-source-map',
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/dist/',
@@ -52,34 +50,18 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        use: extractCSS.extract([ 'css-loader', 'postcss-loader' ])
-      },
-      {
-        test: /\.less$/i,
-        use: extractLESS.extract([ 'css-loader', 'less-loader' ])
-      },
-      {
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
-        })
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: isProd
-          ? ExtractTextPlugin.extract({
-              use: [
-                {
-                  loader: 'css-loader',
-                  options: { minimize: true }
-                },
-                'stylus-loader'
-              ],
-              fallback: 'vue-style-loader'
-            })
-          : ['vue-style-loader', 'css-loader', 'stylus-loader']
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
     ]
   },
@@ -97,17 +79,24 @@ module.exports = {
     ],
   },
   plugins: isProd
-    ? [
-        extractCSS,
-        extractLESS,
+      ? [
         new VueLoaderPlugin(),
         new webpack.optimize.ModuleConcatenationPlugin(),
-        new ExtractTextPlugin({
-          filename: 'common.[hash].css'
+        new MiniCssExtractPlugin({
+          // Options similar to the same options in webpackOptions.output
+          // both options are optional
+          filename: !isProd ? '[name].css' : '[name].[hash].css',
+          chunkFilename: !isProd  ? '[id].css' : '[id].[hash].css',
         })
       ]
-    : [
+      : [
         new VueLoaderPlugin(),
-        new FriendlyErrorsPlugin()
+        new FriendlyErrorsPlugin(),
+        new MiniCssExtractPlugin({
+          // Options similar to the same options in webpackOptions.output
+          // both options are optional
+          filename: !isProd ? '[name].css' : '[name].[hash].css',
+          chunkFilename: !isProd  ? '[id].css' : '[id].[hash].css',
+        }),
       ]
 }

@@ -1,16 +1,16 @@
-#VueSSR基础模板
+# VueSSR基础模板
 
-#安装
+### 安装
 npm install
 
-#开发模式
+### 开发模式
 npm run dev
 
-#打包
+### 打包
 npm build
 
-#运行
+### 运行
 npm run start
 
-#详细说明
+### 详细说明
 见docs/安装文档.md

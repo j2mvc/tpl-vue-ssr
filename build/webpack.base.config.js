@@ -5,9 +5,15 @@ const { VueLoaderPlugin } = require('vue-loader')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const devMode = process.env.NODE_ENV !== 'production';
-
 const isProd = process.env.NODE_ENV === 'production'
+
+const cssExtract = new MiniCssExtractPlugin({
+    // Options similar to the same options in webpackOptions.output
+    // both options are optional
+    filename: !isProd ? '[name].css' : '[name].[hash].css',
+    chunkFilename: !isProd  ? '[id].css' : '[id].[hash].css',
+})
+
 
 module.exports = {
   mode:isProd?'production':'none',
@@ -82,21 +88,11 @@ module.exports = {
       ? [
         new VueLoaderPlugin(),
         new webpack.optimize.ModuleConcatenationPlugin(),
-        new MiniCssExtractPlugin({
-          // Options similar to the same options in webpackOptions.output
-          // both options are optional
-          filename: !isProd ? '[name].css' : '[name].[hash].css',
-          chunkFilename: !isProd  ? '[id].css' : '[id].[hash].css',
-        })
+        cssExtract
       ]
       : [
         new VueLoaderPlugin(),
         new FriendlyErrorsPlugin(),
-        new MiniCssExtractPlugin({
-          // Options similar to the same options in webpackOptions.output
-          // both options are optional
-          filename: !isProd ? '[name].css' : '[name].[hash].css',
-          chunkFilename: !isProd  ? '[id].css' : '[id].[hash].css',
-        }),
+        cssExtract
       ]
 }
